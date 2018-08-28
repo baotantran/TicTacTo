@@ -40,25 +40,27 @@ public class Board {
     }
 
     // place mark on the board
-    public int setPlayer(int x, int y) {
-        if (checkFull() || win){
-            //System.out.println("Game Over");
-            return -1;
-        } else {
-            char player = switchPlayer();
-            if (x >= 1 && x <= ROW) {
-                if(y >= 1 && y <= COLLUMN) {
-                    if (checkEmpty(x, y)) {
-                        board[x - 1][y - 1] = player;
+    public boolean setPlayer(int row, int col) {
+        if (!full && !win){
+            char player = PLAYER1;
+            if (getCurPlayer() == 2) {
+                player = PLAYER2;
+            }
+            if (row >= 1 && row <= ROW) {
+                if(col >= 1 && col <= COLLUMN) {
+                    if (checkEmpty(row, col)) {
+                        board[row - 1][col - 1] = player;
                         size++;
+                        switchPlayer();
                     } else {
                         System.out.println("Position is taken!");
                     }
                 }
             }
+            checkStatus();
+            return true;
         }
-        checkStatus();
-        return 1;
+        return false;
     }
 
     // check status of the board: winner, fullness
@@ -68,26 +70,23 @@ public class Board {
         if(winOverall()) {
             win = true;
             status = false;
-            System.out.println("Game Over");
+            //System.out.println("Game Over");
         } else if (checkFull()) {
             System.out.println("board is full");
+            full = true;
             status = false;
         }
         return status;
     }
 
 
-    //Switch player
-    public char switchPlayer() {
-        char curPlayer = PLAYER1;
+    //Switch player for the next run each time a mark is set
+    public void switchPlayer() {
         if(player == 1) {
             this.player = 2;
-            curPlayer = PLAYER1;
         } else {
             this.player = 1;
-            curPlayer = PLAYER2;
         }
-        return curPlayer;
     }
 
     // Check if the current position is empty
@@ -101,12 +100,11 @@ public class Board {
 
     // Check if the board is full
     private boolean checkFull() {
-        boolean result = false;
         if(size == ROW * COLLUMN) {
-            result = true;
             full = true;
+            return true;
         }
-        return result;
+        return false;
     }
 
     // Check for horizontal win
@@ -188,5 +186,13 @@ public class Board {
 
     public boolean getStatus() {
         return win;
+    }
+
+    public boolean getCapcity() {
+        return full;
+    }
+
+    public int getCurPlayer() {
+        return player;
     }
 }
