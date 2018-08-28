@@ -6,10 +6,12 @@ public class Board {
     private boolean win;
     private char playerWin;
     private int player;
+    private boolean full;
 
-    private static final int ROW = 4, COLLUMN = 4;
+    private static final int ROW = 3, COLLUMN = 3;
     private static final char PLAYER1 = 'X';
     private static final char PLAYER2 = 'O';
+    private static final int WINCONDITION = 3;
 
     // Initialize a 2D array fill '_' representing empty spot
     public Board() {
@@ -17,6 +19,7 @@ public class Board {
         size = 0;
         win = false;
         player = 1;
+        full = false;
         for(int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 board[i][j] = '_';
@@ -39,7 +42,7 @@ public class Board {
     // place mark on the board
     public int setPlayer(int x, int y) {
         if (checkFull() || win){
-            System.out.println("Game Over");
+            //System.out.println("Game Over");
             return -1;
         } else {
             char player = switchPlayer();
@@ -101,6 +104,7 @@ public class Board {
         boolean result = false;
         if(size == ROW * COLLUMN) {
             result = true;
+            full = true;
         }
         return result;
     }

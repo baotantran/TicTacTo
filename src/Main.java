@@ -1,15 +1,18 @@
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
-        Board game = new Board();
-        game.setPlayer(4,4);
-        game.setPlayer(3,4);
-        game.setPlayer(2,2);
-        game.setPlayer(2,4);
-        game.setPlayer(3,3);
-        game.setPlayer(3,1);
-        game.setPlayer(1,1);
-
-        game.draw();
+        Scanner input = new Scanner(System.in);
+        String command = "";
+        BoardHelper game = new BoardHelper();
+        boolean gameStatus = true;
+        while(gameStatus) {
+            System.out.print("Please Enter your x coordinate: ");
+            command = input.next();
+            System.out.print("Please Enter your y coordinate: ");
+            command = command + " " + input.next();
+            gameStatus = game.process(command);
+        }
     }
 }
